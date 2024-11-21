@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produção Médica 2024</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Produção Médica 2024</h1>
+
+        <!-- Dashboard -->
+        <div id="dashboard">
+            <button class="btn btn-primary mb-3" id="btn-cadastrar">Cadastrar Novo Procedimento</button>
+            <div id="resumo-pendencias" class="alert alert-info" role="alert" aria-live="polite">
+                Resumo das pendências será exibido aqui.
+            </div>
+
+            <div id="filtro-container">
+                <input type="text" id="filtro-nome" placeholder="Buscar por nome" />
+                <input type="text" id="filtro-procedimento" placeholder="Buscar por procedimento" />
+                <input type="text" id="filtro-local" placeholder="Buscar por local" />
+                <select id="filtro-status">
+                    <option value="Todos">Todos</option>
+                    <option value="Pago">Pago</option>
+                    <option value="Pendente">Pendente</option>
+                </select>
+           
+
+                <button id="btn-limpar">Limpar Filtros</button>
+            </div>
+            
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Procedimento</th>
+                        <th scope="col">Local</th>
+                        <th scope="col"style="width: 10%;">Status</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-procedimentos"></tbody>
+            </table>
+        </div>
+
+        <div id="modal-confirmacao" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h4>Confirmar Remoção</h4>
+                <p id="mensagem-confirmacao"></p>
+                <div class="modal-actions">
+                    <button id="btn-confirmar" class="btn btn-danger">Remover</button>
+                    <button id="btn-cancelar" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="btn-gerar-pdf" class="btn btn-success">Gerar PDF</button>
+  
+        
+
+        <!-- Formulário de Cadastro - Procedimento -->
+        <div id="form-cadastro" style="display: none;">
+            <h2>Cadastrar Procedimento</h2>
+            <form id="cadastro-form">
+                <div class="mb-3">
+                    <label for="data" class="form-label" id="label-data">Data</label>
+                    <input type="date" class="form-control" id="data" aria-labelledby="label-data" required>
+                </div>                
+                <div class="mb-3">
+                    <label for="nome" class="form-label" id="label-nome">Nome do Paciente</label>
+                    <input type="text" class="form-control" id="nome" aria-labelledby="label-nome" required minlength="3">
+                </div>
+                <div class="mb-3">
+                    <label for="procedimento" class="form-label" id="label-procedimento">Procedimento</label>
+                    <select class="form-control" id="procedimento" aria-labelledby="label-procedimento" required>
+                        <option value="avaliação hospitalar">Avaliação Hospitalar</option>
+                        <option value="biópsia renal">Biópsia Renal</option>
+                        <option value="consulta médica cemig">Consulta Médica Cemig</option>
+                        <option value="consulta médica particular">Consulta Médica Particular</option>
+                        <option value="consulta médica unimed">Consulta Médica Unimed</option>
+                        <option value="hemodiálise">Hemodiálise</option>
+                        <option value="hemodiálise contínua">Hemodiálise Contínua</option>
+                        <option value="implante de cdl">Implante de CDL</option>
+                        <option value="internação hospitalar">Internação Hospitalar</option>
+                        <option value="retorno">Retorno</option>
+                        <option value="outros">Outros (Especificar)</option>
+                    </select>
+                </div>
+
+                <!-- Campo adicional para "Outros" -->
+                <div id="outros-container" style="display: none;">
+                    <label for="outros">Descreva o procedimento:</label>
+                    <input type="text" id="outros" name="outros" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label" id="label-status">Status de Pagamento</label>
+                    <select id="status" class="form-control" aria-labelledby="label-status">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="local" class="form-label" id="label-local">Local</label>
+                    <select class="form-control" id="local" aria-labelledby="label-local" required>
+                        <option value="consultório particular">Consultório Particular</option>
+                        <option value="hospital são marcos">Hospital São Marcos</option>
+                        <option value="hospital unimed">Hospital Unimed</option>
+                        <option value="instituto de hemodiálise">Instituto de Hemodiálise</option>
+                        <option value="visita domiciliar">Visita Domiciliar</option>
+                        <option value="outros">Outros (Especificar)</option>
+                    </select>
+                </div>
+
+                <!-- Campo adicional para "Outros" -->
+                <div id="outros-local-container" style="display: none;">
+                    <label for="outros-local">Descreva o local:</label>
+                    <input type="text" id="outros-local" name="outros-local" />
+                </div>
+
+                <button type="submit" class="btn btn-success">Salvar</button>
+                <button type="button" class="btn btn-secondary" id="btn-cancelar1">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- Em seguida, inclua o jsPDF AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
