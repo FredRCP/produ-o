@@ -70,6 +70,39 @@ const renderTabela = (filtros = {}) => {
     atualizarResumo();
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+    const btnGerarPdf = document.getElementById("btn-gerar-pdf");
+    const btnCadastrar = document.getElementById("btn-cadastrar");
+    const cadastroForm = document.getElementById("cadastro-form"); // O ID do formulário de cadastro
+
+    // Função para ocultar o botão "Gerar PDF"
+    const ocultarGerarPdf = () => {
+        if (btnGerarPdf) {
+            btnGerarPdf.style.display = "none";
+        }
+    };
+
+    // Função para mostrar o botão "Gerar PDF"
+    const mostrarGerarPdf = () => {
+        if (btnGerarPdf) {
+            btnGerarPdf.style.display = "block";
+        }
+    };
+
+    // Oculta o botão ao abrir o cadastro
+    if (btnCadastrar && cadastroForm) {
+        btnCadastrar.addEventListener("click", () => {
+            ocultarGerarPdf();
+        });
+    }
+
+    // Exemplo de lógica para mostrar o botão "Gerar PDF" novamente, se necessário
+    cadastroForm.addEventListener("submit", () => {
+        mostrarGerarPdf(); // Mostra novamente após o cadastro
+    });
+});
+
+
 function capitalizeWords(nome) {
     return nome
       .toLowerCase() // Converte tudo para minúsculas
@@ -220,7 +253,7 @@ const preencherUltimoCadastro = () => {
     document.getElementById('data').value = ultimoCadastro.data || '';
     document.getElementById('nome').value = ultimoCadastro.nome || '';
     document.getElementById('procedimento').value = ultimoCadastro.procedimento || '';
-    document.getElementById('status').value = ultimoCadastro.status || '';
+    document.getElementById('status').value = ultimoCadastro.status || 'Pendente';
     document.getElementById('local').value = ultimoCadastro.local || '';
 };
 

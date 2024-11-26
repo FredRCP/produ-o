@@ -12,10 +12,17 @@
 body {
   margin: 0;
   padding: 0;
-  background: var(--primary-color);
-  font-family: 'Open sans', sans-serif;
+  font-family: Arial, sans-serif;
+  color: #333;
   font-size: 1.2em;
   line-height: 1.5em;
+  background-image: url('/assets/img/1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+h1{
+  color: green;
 }
 
 .modal {
@@ -82,55 +89,8 @@ body {
   padding: 1px;
 }
 
-
-
-
-
-
-
-.locais{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-h1, h3{
-  text-align: center;
-}
-
-.locais div{
-  max-width: 440px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.checar{
-  color: green;
-  margin-left: 0.5em;
-}
-
-.apagar{
-  color: red;
-  margin-left: 0.5em;
-}
-
-.sublinhar{
-  color: green;
-  text-decoration: line-through;
-}
-
-li{
-  font-size: 0.8em;
-  font-weight: 800;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  color: #333;
-}
 .btn-primary {
-  background-color: #007bff;
+  background-color: #026cdd;
   border-color: #007bff;
 }
 
